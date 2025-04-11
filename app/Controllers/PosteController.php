@@ -6,7 +6,7 @@ use App\Models\Poste;
 
 class PosteController
 {
-    #[Route('app.poste.show', '/poste/details/([0-9]+)', ['GET'])]
+    #[Route('app.poste.show', '/postes/details/([0-9]+)', ['GET'])]
 
     public function show(int $id): void
     {

@@ -89,7 +89,13 @@ class Router
                 $actionName = $route['action'];
                 // $contrloller = new HomeController();
                 // $actionName = 'index';
-                $controller->$actionName();
+
+                // on supprime le premier élément du tableau $matches
+                $params = array_slice($matches, 1);
+
+
+
+                $controller->$actionName(...$params);
 
                 return;
             }
