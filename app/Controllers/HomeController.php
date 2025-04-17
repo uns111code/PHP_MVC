@@ -3,13 +3,18 @@
 namespace App\Controllers;
 
 use App\Core\Route;
+use App\Core\AbstractController;
+use App\Core\Response;
 
-class HomeController
+class HomeController extends AbstractController
 {
     #[Route('app.home', '/', ['GET'])]
-    public function index(): void
+    public function index(): Response
     {
-        echo "Page d'accueil";
+        // echo "Page d'accueil";
+        // require_once DIR_ROOT . '/Views/home/index.php';
+
+        return $this->render('home/index.php');
     }
 
     #[Route('app.test', '/test', ['GET'])]

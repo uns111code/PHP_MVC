@@ -80,7 +80,7 @@ class Router
             // on vérifie si l'url de navigateur correspond à l'url de la route
             // on vérifie si la méthode deu navigateur correspond aux méthodes authorisées de la route
             if (preg_match("#^$route[url]$#", $url, $matches) && in_array($method, $route['methods'])) {
-                var_dump($matches);
+                // var_dump($matches);
                 $controllerName = $route['controller'];
 
                 // on instancie le controller de la route
@@ -95,8 +95,9 @@ class Router
 
 
 
-                $controller->$actionName(...$params);
+                $response = $controller->$actionName(...$params);
 
+                $response->send();
                 return;
             }
         }
