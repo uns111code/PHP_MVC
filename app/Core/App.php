@@ -17,6 +17,7 @@ class App
 
     public function start(): void
     {
+        session_start();
         // echo "App started!";
         // var_dump($_GET);
 

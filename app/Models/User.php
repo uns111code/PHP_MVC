@@ -16,6 +16,34 @@ class User extends Model
         $this->table = 'users';
     }
 
+
+    public function connectUser(): self
+    {
+        // on stocke l'utilisateur dans la session
+        $_SESSION['user'] = [
+            'id' => $this->id,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'email' => $this->email,
+            'roles' => $this->roles,
+        ];
+
+        return $this;
+    }
+
+
+    public function findOneByEmail(string $email): bool|self
+    {
+        $pdoStatement = $this
+        ->runQuery(
+            "SELECT * FROM $this->table WHERE email = :email",
+            ['email' => $email]
+        )->fetch();
+
+        return $this->fetchHydrate($pdoStatement);
+    }
+
+
     /**
      * Get the value of id
      *
