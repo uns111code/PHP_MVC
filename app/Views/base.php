@@ -12,6 +12,7 @@
     <body>
         <?php require_once 'Layout/_header.php'; ?>
         <main>
+            <?php require_once 'Layout/_flash.php'; ?>
             <?= $content ?>
         </main>
     </body>

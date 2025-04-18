@@ -30,14 +30,19 @@ class SecurityController extends AbstractController
 
             // on verifie si l'utilisateur existe et si le mot de passe est correct
             if (!$user || !password_verify($password, $user->getPassword())) {
-                // TODO ajouter un message d'erreur
+                $this->addFlash('danger', 'Identifiants incorrects');
                 // on redirige vers la page de connexion
+                return $this->redirectToRoute('app.security.login');
             }
 
             // on connecte l'utilisateur
             $user->connectUser();
 
-            // TODO rediriger vers la page d'accueil ou la page de profil
+            $this->addFlash('success', 'Vous êtes connecté !');
+
+            // on redirige vers la page d'accueil
+            return $this->redirectToRoute('app.home');
+
         }
 
         return $this->render('security/login.php', [

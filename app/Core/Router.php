@@ -71,6 +71,7 @@ class Router
                 }
             }
         }
+        $_SESSION['routes'] = $this->routes;
     }
 
     public function handleRequest(string $url, string $method): void
@@ -106,5 +107,15 @@ class Router
          http_response_code(404);
          echo "404 Not Found";
          exit(404);
+    }
+
+    public function getUrl(string $name): ?string
+    {
+        foreach ($_SESSION['routes'] ?? [] as $route) {
+            if ($route['name'] === $name) {
+                return $route['url'];
+            }
+        }
+        return null;
     }
 }
