@@ -50,4 +50,12 @@ class SecurityController extends AbstractController
             'title' => 'Connexion',
         ]);
     }
+
+    #[Route('app.security.logout', '/logout', ['GET'])]
+    public function logout(): Response
+    {
+        unset($_SESSION['USER']);
+
+        return $this->redirectToRoute('app.home');
+    }
 }

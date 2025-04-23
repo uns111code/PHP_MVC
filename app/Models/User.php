@@ -20,7 +20,7 @@ class User extends Model
     public function connectUser(): self
     {
         // on stocke l'utilisateur dans la session
-        $_SESSION['user'] = [
+        $_SESSION['USER'] = [
             'id' => $this->id,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
