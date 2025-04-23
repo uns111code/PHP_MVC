@@ -10,11 +10,15 @@
                         <h2 class="card-title"><?= $poste->getTitle(); ?></h2>
                     </div>
                     <div class="card-body">
+                        <p class="card-text text-muted"><?= $poste->getUser()->getFullName(); ?></p>
                         <em class="text-muted d-block mb-3"><?= $poste->getCreatedAt()->format('Y/m/m'); ?></em>
                         <p class="card-text"><?= $poste->getDescription(); ?></p>
                         <div class="d-flex justify-content-between mt-3">
-                            <a href="#" class="btn btn-warning">Modifier</a>
-                            <a href="#" class="btn btn-danger">Supprimer</a>
+                            <a href="/admin/postes/<?= $poste->getId(); ?>/edit" class="btn btn-warning">Modifier</a>
+                            <form action="/admin/postes/<?= $poste->getId(); ?>/delete" method="POST" onsubmit="return confirm('Etes-vous sur de vouloir supprimer ce poste ?')">
+                            <input type="hidden" name="csrf_token" value="<?= $token; ?>">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ class Poste extends Model
         protected ?string $description = null,
         protected ?\DateTime $createdAt = null,
         protected ?bool $enabled = null,
+        protected ?int $userId = null,
     )
     {
         $this->table = 'postes';
@@ -135,5 +136,35 @@ class Poste extends Model
                 $this->enabled = $enabled;
 
                 return $this;
+        }
+
+        /**
+         * Get the value of userId
+         *
+         * @return ?int
+         */
+        public function getUserId(): ?int
+        {
+                return $this->userId;
+        }
+
+        /**
+         * Set the value of userId
+         *
+         * @param ?int $userId
+         *
+         * @return self
+         */
+        public function setUserId(?int $userId): self
+        {
+                $this->userId = $userId;
+
+                return $this;
+        }
+
+
+        public function getUser(): ?User
+        {
+                return (new User)->find($this->userId);
         }
 }

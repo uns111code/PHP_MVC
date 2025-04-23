@@ -116,6 +116,11 @@ class User extends Model
         return $this;
     }
 
+    public function getFullName(): string
+    {
+        return "$this->firstName $this->lastName";
+    }
+
     /**
      * Get the value of email
      *

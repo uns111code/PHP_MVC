@@ -3,10 +3,11 @@
 namespace App\Form;
 
 use App\Core\Form;
+use App\Models\Poste;
 
 class PosteForm extends Form
 {
-    public function __construct(string $action = '#')
+    public function __construct(?Poste $poste = null, string $action = '#')
     {
         $this
             ->startForm($action, 'POST', ['class' => 'form card p-3 w-75 mx-auto'])
@@ -14,12 +15,15 @@ class PosteForm extends Form
             ->addLabel('title', 'Titre:', ['class' => 'form-label'])
             ->addInput('text', 'title', [
                 'class' => 'form-control',
-                'id' => 'title'
+                'id' => 'title',
+                'placeholder' => 'Titre du poste',
+                'required' => true,
+                'value' => $poste?->getTitle(),
             ])
             ->endDiv()
             ->startDiv(['class' => 'mb-3'])
             ->addLabel('description', 'Description:', ['class' => 'form-label'])
-            ->addTextarea('description', '', [
+            ->addTextarea('description', $poste?->getDescription(), [
                 'class' => 'form-control',
                 'id' => 'description',
                 'rows' => 10,
@@ -30,11 +34,12 @@ class PosteForm extends Form
             ->startDiv(['class' => 'mb-3 form-check form-switch'])
             ->addInput('checkbox', 'enababled', [
                 'class' => 'form-check-input',
-                'id' => 'enabled'
+                'id' => 'enabled',
+                'checked' => $poste ? $poste->getEnabled() : false
             ])
             ->addLabel('enabled', 'Actif', ['class' => 'form-check-label'])
             ->endDiv()
-            ->addButton('Créer', [
+            ->addButton(isset($poste) ? 'Modifier' : 'Créer', [
                 'class' => 'btn btn-primary',
                 'type' => 'submit',
             ])
