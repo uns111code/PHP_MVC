@@ -1,6 +1,6 @@
 <section class="container mt-4">
     <h1 class="text-center">Administration des postes</h1>
-    <a href="/admin/postes/create" class="btn"></a>btn-primary{Créer un poste}
+    <a href="/admin/postes/create" class="btn btn-primary">Créer un poste</a>
     <div
         class="mt-2 row gy-3">
         <?php foreach ($postes as $poste): ?>

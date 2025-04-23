@@ -75,6 +75,14 @@ class Form
         return $this;
     }
 
+    public function addTextarea(string $name, string $content, array $attributs = []): static
+    {
+
+        $this->formCode .= "<textarea name=\"$name\"" . $this->addAttributs($attributs) . ">$content</textarea>";
+
+        return $this;
+    }
+
     public function addButton(string $text, array $attributs = []): static
     {
         // <button type="submit" class="btn btn-primary">Envoyer</button>
