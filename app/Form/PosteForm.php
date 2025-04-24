@@ -4,9 +4,17 @@ namespace App\Form;
 
 use App\Core\Form;
 use App\Models\Poste;
+// use App\Models\Catag;
+
+
+
+
+
+
 
 class PosteForm extends Form
 {
+    
     public function __construct(?Poste $poste = null, string $action = '#')
     {
         $this
@@ -39,6 +47,10 @@ class PosteForm extends Form
             ])
             ->addLabel('enabled', 'Actif', ['class' => 'form-check-label'])
             ->endDiv()
+            // ->addSelect('categorie', $catag, [
+            //     'class' => 'form-select form-select-sm',
+            //     'id' => 'categorie',
+            // ], $selectedCategoryId ?? '')
             ->addButton(isset($poste) ? 'Modifier' : 'Créer', [
                 'class' => 'btn btn-primary',
                 'type' => 'submit',
@@ -46,3 +58,6 @@ class PosteForm extends Form
             ->endForm();
     }
 }
+
+
+// 'class' => 'form-select form-select-xs mt-3 mb-3'

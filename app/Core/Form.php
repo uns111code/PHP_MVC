@@ -79,6 +79,30 @@ class Form
         return $this;
     }
 
+
+
+
+
+    public function addSelect(string $name, array $options = [], array $attributs = [], string $selectedValue = ''): static
+    {
+        $this->formCode .= "<select name=\"$name\"" . $this->addAttributs($attributs) . ">";
+    
+        foreach ($options as $value => $label) {
+            $selected = $value == $selectedValue ? ' selected' : '';
+            $this->formCode .= "<option value=\"$value\"$selected>$label</option>";
+        }
+    
+        $this->formCode .= "</select>";
+    
+        return $this;
+    }
+
+
+
+
+
+
+
     public function addButton(string $text, array $attributs = []): static
     {
         // <button type="submit" class="btn btn-primary">Envoyer</button>

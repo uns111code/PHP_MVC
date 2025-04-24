@@ -11,7 +11,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Postes</a>
+                        <a class="nav-link" href="/admin/postes/">Postes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/catags/">Catégorie</a>
                     </li>
                 </ul>
                 <ul

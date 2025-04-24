@@ -1,6 +1,13 @@
 <section class="container mt-4">
     <h1 class="text-center">Administration des postes</h1>
     <a href="/admin/postes/create" class="btn btn-primary">Créer un poste</a>
+    <a href="/admin/catags/create" class="btn btn-primary">Créer une Catégorie</a>
+
+    <select name="catag" id="catag" class="form-select form-select-xs mt-3">
+        <?php foreach ($catags as $catag): ?>
+            <option value="<?= $catag->getName(); ?>"><?= $catag->getName(); ?></option>
+        <?php endforeach; ?>
+    </select>
     <div
         class="mt-2 row gy-3">
         <?php foreach ($postes as $poste): ?>
@@ -14,6 +21,9 @@
                         <em class="text-muted d-block mb-3"><?= $poste->getCreatedAt()->format('Y/m/m'); ?></em>
                         <p class="card-text"><?= $poste->getDescription(); ?></p>
                         <p class="card-tex text-<?= $poste->getEnabled() ? 'success' : 'danger' ?> js-visibility-text"><?= $poste->getEnabled() ? 'Actif' : 'Inactif' ?></p>
+                        
+                        <p class="card-text text-muted">Catégorie: <?= $poste->getCatag()->getName(); ?></p>
+
 
                         <div class="form-check form-switch">
                             <input data-id="<?= $poste->getId(); ?>" class="form-check-input" type="checkbox" id="switch-visibility-<?= $poste->getId(); ?>" <?= $poste->getEnabled() ? 'checked' : ''; ?>/>

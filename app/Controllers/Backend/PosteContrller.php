@@ -2,20 +2,20 @@
 
 namespace App\Controllers\Backend;
 
-use App\Core\AbstractController;
-use App\Core\Response;
 use App\Core\Route;
-use App\Form\PosteForm;
 use App\Models\Poste;
+use App\Core\Response;
+use App\Form\PosteForm;
+use App\Core\AbstractController;
+use App\Models\Catag;
 
 class PosteContrller extends AbstractController
 {
     #[Route('app.poste.index', '/admin/postes', ['GET'])]
     public function index(): Response
     {
-
-
         $postes = (new Poste)->findAll();
+        $catags = (new Catag)->findAll();
 
         $_SESSION['csrf_token'] = bin2hex(random_bytes(56));
 
@@ -32,6 +32,7 @@ class PosteContrller extends AbstractController
             // 'styles' => [   
             //     '/assets/styles/poste.css',
             // ]
+            'catags' => $catags,
         ]);
 
         // return $this->render('backend/poste/index.php', [
@@ -117,8 +118,8 @@ class PosteContrller extends AbstractController
         ]);
     }
 
-    #[Route('admin.poste.delete', '/admin/postes/([0-9]+)/delete', ['POST'])]
 
+    #[Route('admin.poste.delete', '/admin/postes/([0-9]+)/delete', ['POST'])]
     public function delete(int $id): Response
     {
         // on récupére le poste à supprimer
@@ -162,5 +163,25 @@ class PosteContrller extends AbstractController
                 ['Content-Type' => 'application/json']
             );
         }
+
+        // On inverse la visibilité du poste
+        $poste
+            ->setEnabled(!$poste->getEnabled())
+            ->update();
+
+        // on définit le contenu de la résponse
+        $content = [
+            'status' => 'success',
+            'message' => 'Le poste a été modifié avec succès !',
+            'enabled' => $poste->getEnabled(),
+        ];
+
+        // On renvoie la résponse au format Json
+        return new Response(
+            json_encode($content),
+            201,
+            ['Content-Type' => 'application/json']
+        );
     }
+
 }
