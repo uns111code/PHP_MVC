@@ -22,11 +22,21 @@ class PosteContrller extends AbstractController
         return $this->render('backend/poste/index.php', [
             'postes' => $postes,
             'token' => $_SESSION['csrf_token'],
+            'meta' => [
+                'title' => 'Administration des postes',
+            ],
+            
+            'scripts' => [
+                '/assets/js/switchVisibilityPoste.js',
+            ],
+            // 'styles' => [   
+            //     '/assets/styles/poste.css',
+            // ]
         ]);
 
-        return $this->render('backend/poste/index.php', [
-            'postes' => $postes,
-        ]);
+        // return $this->render('backend/poste/index.php', [
+        //     'postes' => $postes,
+        // ]);
     }
 
     #[Route('app.poste.create', '/admin/postes/create', ['GET', 'POST'])]
@@ -61,51 +71,51 @@ class PosteContrller extends AbstractController
 
     #[Route('app.poste.edit', '/admin/postes/([0-9]+)/edit', ['GET', 'POST'])]
     public function update(int $id): Response
-        {
-    
-            //on recupere le poste à modifier
-    
-    
-            /**
-             * @var ?Poste $poste  (pour patcher les warning lié à VS Code)
-             */
-    
-    
-            $poste = (new Poste)->find($id);
-    
-            //Si le poste n'existe pas on redirige ver l'index avec un message d'erreur
-            if (!$poste) {
-                $this->addFlash('danger', 'le poste n\'existe pas !');
-    
-                return $this->redirectToRoute('app.poste.index');
-            }
-    
-            //on instancie le formulaire
-            $form = new PosteForm($poste);
-    
-            //on verifie si le formulaire à été soumis et qu'il soit valide
-            if ($form->validate(['title', 'description'], $_POST)) {
-                //On recupere et nettoie les données du formulaire
-                $title = strip_tags(trim($_POST['title']));
-                $description = strip_tags(trim($_POST['description']));
-                $enabled = isset($_POST['enabled']) ? true : false;
-    
-                //On met à jour l'objet poste et on persist en BDD
-                $poste
-                    ->setTitle($title)
-                    ->setDescription($description)
-                    ->setEnabled($enabled)
-                    ->update()
-                ;
-    
-                //On redirigie vers la page d'index avec un message de succès
-                $this->addFlash('success', "Le poste a été modifié avec succès !");
-                return $this->redirectToRoute('app.poste.index');
-            }
-            return $this->render('backend/poste/update.php', [
-                'form' => $form->createForm(),
-            ]);
+    {
+
+        //on recupere le poste à modifier
+
+
+        /**
+         * @var ?Poste $poste  (pour patcher les warning lié à VS Code)
+         */
+
+
+        $poste = (new Poste)->find($id);
+
+        //Si le poste n'existe pas on redirige ver l'index avec un message d'erreur
+        if (!$poste) {
+            $this->addFlash('danger', 'le poste n\'existe pas !');
+
+            return $this->redirectToRoute('app.poste.index');
         }
+
+        //on instancie le formulaire
+        $form = new PosteForm($poste);
+
+        //on verifie si le formulaire à été soumis et qu'il soit valide
+        if ($form->validate(['title', 'description'], $_POST)) {
+            //On recupere et nettoie les données du formulaire
+            $title = strip_tags(trim($_POST['title']));
+            $description = strip_tags(trim($_POST['description']));
+            $enabled = isset($_POST['enabled']) ? true : false;
+
+            //On met à jour l'objet poste et on persist en BDD
+            $poste
+                ->setTitle($title)
+                ->setDescription($description)
+                ->setEnabled($enabled)
+                ->update()
+            ;
+
+            //On redirigie vers la page d'index avec un message de succès
+            $this->addFlash('success', "Le poste a été modifié avec succès !");
+            return $this->redirectToRoute('app.poste.index');
+        }
+        return $this->render('backend/poste/update.php', [
+            'form' => $form->createForm(),
+        ]);
+    }
 
     #[Route('admin.poste.delete', '/admin/postes/([0-9]+)/delete', ['POST'])]
 
@@ -126,11 +136,31 @@ class PosteContrller extends AbstractController
             $poste->delete();
 
             $this->addFlash('success', 'le poste a été supprimé avec succès !');
-
         } else {
             $this->addFlash('danger', 'le token CSRF est invalide !');
         }
 
         return $this->redirectToRoute('app.poste.index');
+    }
+
+    #[Route('app.poste.switch', '/admin/api/postes/([0-9]+)/switch', ['GET'])]
+    public function switch(int $id) : Response 
+    {
+        // on récupère le poste à modifier
+        $poste = (new Poste)->find($id);
+
+        // si le poste n'existe pas, on renvoie une erreur 404
+        if (!$poste) {
+            $content = [
+                'status' => 'error',
+                'message' => 'Le poste n\'existe pas !',
+            ];
+
+            return new Response(
+                json_encode($content),
+                404,
+                ['Content-Type' => 'application/json']
+            );
+        }
     }
 }
